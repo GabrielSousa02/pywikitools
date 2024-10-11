@@ -1,0 +1,17 @@
+services:
+  db:
+    image: 4training/mysql
+    volumes:
+      - vol-db:/var/lib/mysql
+
+  mediawiki:
+    build:
+      context: .
+    ports:
+      - "8082:80"
+    volumes:
+      - vol-www:/var/www/html/mediawiki
+
+volumes:
+  vol-www:
+  vol-db:
