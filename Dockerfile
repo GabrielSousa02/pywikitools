@@ -33,6 +33,7 @@ RUN ln -s /usr/lib/python3/dist-packages/unohelper.py /py/lib/python*/site-packa
 # Set up configuration config.ini for Docker environment
 COPY ./config.example.ini /src/config.ini
 RUN sed -ie 's|site = [a-zA-Z0-9]\{1,9\}|site = docker|' /src/config.ini
+RUN sed -ie 's|base = /home/USERNAME/pywikitools/|base = /src/|' /src/config.ini
 
 # Set up php-handler for correctbot-handler
 COPY ./php-handler/handler.php /var/www/html/correctbot-handler/
