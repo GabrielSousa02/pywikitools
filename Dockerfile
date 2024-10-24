@@ -51,3 +51,8 @@ RUN sed -ie "s|\"run\": \"/path/to/python /path/to-script.py\"|\"run\": \"/py/bi
 RUN sed -ie "s|\$wgForTrainingToolsCorrectBotUrl = '/handler/handler.php'|\$wgForTrainingToolsCorrectBotUrl = '/correctbot-handler/handler.php';|" /var/www/html/mediawiki/LocalSettings.php
 RUN sed -ie "s|\$wgForTrainingToolsGenerateOdtUrl = '/handler/handler.php'|\$wgForTrainingToolsGenerateOdtUrl = '/translateodt-handler/handler.php';|" /var/www/html/mediawiki/LocalSettings.php
 
+RUN adduser --disabled-password --no-create-home \
+		django-user && \
+    chown -R django-user:django-user /src
+
+USER django-user
