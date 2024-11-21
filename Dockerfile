@@ -45,7 +45,10 @@ RUN sed -ie "s|\$wgForTrainingToolsCorrectBotUrl = '/handler/handler.php'|\$wgFo
 RUN sed -ie "s|\$wgForTrainingToolsGenerateOdtUrl = '/handler/handler.php'|\$wgForTrainingToolsGenerateOdtUrl = '/translateodt-handler/handler.php';|" /var/www/html/mediawiki/LocalSettings.php
 
 RUN adduser --disabled-password --no-create-home \
-		django-user && \
-    chown -R django-user:django-user /src
+		pywiki-user && \
+    chown -R pywiki-user:pywiki-user /src
 
-USER django-user
+RUN mkdir /var/www/html/correctbot-handler/apicache
+RUN chown -R pywiki-user:pywiki-user /var/www/html/correctbot-handler/apicache
+
+USER pywiki-user
