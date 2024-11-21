@@ -2,25 +2,23 @@ FROM 4training/mediawiki:latest
 
 ENV PYTHONUNBUFFERED=1
 
-COPY . /src
+COPY ./requirements.txt /tmp/requirements.txt
 
 RUN set -eux; \
     apt-get update && \
     apt-get install -y --no-install-recommends \
     libreoffice \
-    supervisor \
     python3 \
     python3-pip \
     python3-venv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# This config file will ensure that LibreOffice is working on the background on the correct port
-COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+WORKDIR /src
 
 RUN python3 -m venv /py && \
 	/py/bin/pip install --upgrade pip && \
-	/py/bin/pip install -r /src/requirements.txt
+	/py/bin/pip install -r /tmp/requirements.txt
 
 # Install python3-uno and link it to my venv
 RUN set -eux; \
@@ -29,11 +27,6 @@ RUN set -eux; \
 # Symlink the system wide packages into the virtualenv
 RUN ln -s /usr/lib/python3/dist-packages/uno.py /py/lib/python*/site-packages/
 RUN ln -s /usr/lib/python3/dist-packages/unohelper.py /py/lib/python*/site-packages/
-
-# Set up configuration config.ini for Docker environment
-COPY ./config.example.ini /src/config.ini
-RUN sed -ie 's|site = [a-zA-Z0-9]\{1,9\}|site = docker|' /src/config.ini
-RUN sed -ie 's|base = /home/USERNAME/pywikitools/|base = /src/|' /src/config.ini
 
 # Set up php-handler for correctbot-handler
 COPY ./php-handler/handler.php /var/www/html/correctbot-handler/
