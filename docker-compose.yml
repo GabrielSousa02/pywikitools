@@ -11,6 +11,7 @@ services:
       - "8082:80"
     volumes:
       - vol-www:/var/www/html/mediawiki
+      - .:/src
 
 volumes:
   vol-www:
