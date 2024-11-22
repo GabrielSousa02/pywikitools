@@ -36,7 +36,7 @@ class Family(pywikibot.family.SubdomainFamily):
         '4training': 'www.4training.net',
         'test': 'test.4training.net',
         'local': 'localhost:8082',
-        'docker': 'localhost:80',
+        'docker': '172.25.0.1:8082',
     }
 
     # this must have the same value as $wgScriptPath in LocalSettings.php of the mediawiki installation
