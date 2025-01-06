@@ -3,6 +3,8 @@ services:
     image: 4training/mysql
     volumes:
       - vol-db:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
   mediawiki:
     build:
